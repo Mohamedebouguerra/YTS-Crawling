@@ -1,0 +1,22 @@
+#Dependencies
+
+import requests
+from bs4 import BeautifulSoup
+
+def YTS(max_movies_pages):
+    page = 1
+    while page <= max_movies_pages:
+        url = "https://yts.am/browse-movies?page=" + str(page)
+        source_code = requests.get(url)
+        plain_text = source_code.text
+        soup = BeautifulSoup(plain_text)
+        for link in soup.findAll("a", {"class": "browse-movie-title"}):
+            href = link.get("href")
+            title = link.string
+            print(href)
+            print(title)
+
+        page += 1
+
+#Example
+YTS(5) 
